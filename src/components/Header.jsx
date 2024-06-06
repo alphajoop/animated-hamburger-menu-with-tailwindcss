@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Header() {
   const navLinks = [
@@ -9,11 +9,37 @@ export default function Header() {
   ];
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
     document.body.classList.toggle('overflow-hidden');
   };
+
+  const handleClickOutside = (event) => {
+    if (
+      menuRef.current &&
+      buttonRef.current &&
+      !menuRef.current.contains(event.target) &&
+      !buttonRef.current.contains(event.target)
+    ) {
+      setIsMenuOpen(false);
+      document.body.classList.remove('overflow-hidden');
+    }
+  };
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <header className="font-inter">
@@ -40,6 +66,7 @@ export default function Header() {
               Get started
             </button>
             <div
+              ref={buttonRef}
               className="relative h-4 w-6 cursor-pointer md:hidden"
               onClick={handleMenuToggle}
             >
@@ -71,6 +98,7 @@ export default function Header() {
             </div>
           </div>
           <div
+            ref={menuRef}
             className={`absolute right-0 mx-auto w-full items-center justify-between transition-transform duration-300 ease-in-out max-md:top-12 md:relative md:order-1 md:flex md:w-auto ${isMenuOpen ? 'translate-x-0' : 'max-md:-translate-x-full'}`}
           >
             <ul className="mt-6 flex flex-col space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium max-md:mx-4 md:mt-0 md:flex-row md:space-x-8 md:space-y-0 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
