@@ -46,7 +46,7 @@ export default function Header() {
       <nav className="border-gray-200 bg-white">
         <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
           <a
-            href="https://flowbite.com/"
+            href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
@@ -106,7 +106,7 @@ export default function Header() {
                 <li key={link.text}>
                   <a
                     href={link.url}
-                    className={`block rounded px-3 py-2 font-poppins font-medium md:p-0 md:hover:bg-transparent ${
+                    className={`block rounded px-3 py-2 font-poppins text-base font-medium transition-all duration-500 md:p-0 md:text-lg md:hover:bg-transparent ${
                       link.current
                         ? 'bg-blue-700 text-white hover:bg-blue-700 md:bg-transparent md:text-blue-700'
                         : 'text-gray-900 hover:bg-gray-100 md:hover:text-blue-700'
